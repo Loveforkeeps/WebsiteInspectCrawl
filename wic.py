@@ -3,13 +3,12 @@
 # Author: EMo
 
 import requests
-import sys,http.client
+import sys
 import os
 import re
 import csv
 from io import open
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-from pyquery import PyQuery as pq
 import time,datetime
 from functools import wraps
 import socket
@@ -27,6 +26,7 @@ os.chdir(path)
 """ Python版本识别 """
 if sys.version > '3':
     PY3 = True
+    import http.client
 else:
     PY3 = False
 
@@ -267,7 +267,7 @@ def get_url(host):
         return "https://"+host
 
 
-def inspect(domain):
+def inspect_coinhive(domain):
     global datas
     """ 实现页面检查并将结果，以字典返回 """
     try:

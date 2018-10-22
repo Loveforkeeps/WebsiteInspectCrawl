@@ -1,0 +1,30 @@
+https://58.22.48.15
+实际URL为:https://58.22.48.15/
+网页编码为ascii
+初始化成功！
+获取页面标题
+Traceback (most recent call last):
+  File "spider.py", line 198, in <module>
+    main()
+  File "spider.py", line 189, in main
+    dates.append(dict(Target=p.url,Url=p.res.url,Title=p.pq_get_title(),Content=p.pq_get_text()))
+  File "spider.py", line 145, in pq_get_title
+    self.pq_content = pq(self.content)
+  File "/Users/EMo/Library/Python/3.6/lib/python/site-packages/pyquery/pyquery.py", line 255, in __init__
+    elements = fromstring(context, self.parser)
+  File "/Users/EMo/Library/Python/3.6/lib/python/site-packages/pyquery/pyquery.py", line 95, in fromstring
+    result = getattr(etree, meth)(context)
+  File "src/lxml/etree.pyx", line 3213, in lxml.etree.fromstring
+  File "src/lxml/parser.pxi", line 1871, in lxml.etree._parseMemoryDocument
+ValueError: Unicode strings with encoding declaration are not supported. Please use bytes input or XML fragments without declaration.
+
+
+https://114.215.100.92/
+pq获取title异常
+无法获取页面内容
+解决方案：尝试动态抓取
+
+
+http://seriesdanko.to
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb4 in position 2231: invalid start byte
+

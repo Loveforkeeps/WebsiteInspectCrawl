@@ -14,6 +14,8 @@ from functools import wraps
 import socket
 import threading
 import threadpool
+from pyquery import PyQuery as pq
+from bs4 import BeautifulSoup
 
 
 """ 时间戳 """
@@ -78,6 +80,7 @@ class website():
 
             print("实际URL为:{}".format(self.res.url))
             
+            """ 获取访问时的IP地址不适用于HTTPS """
             # self.ip = self.res.raw._connection.sock.getpeername()[0]
             # if self.url[:5] == "https":
             #     self.ip = self.res.raw._fp.fp.raw
@@ -91,21 +94,21 @@ class website():
             # print(self.encode)
             # print(self.res.encoding)
             if len(self.res.content):
-                self.content = self.res.text
+                # self.content = self.res.text  # 不适用于中文
                 self.hascontent = True #代替hasattr()函数
-                # if self.encode:   #自解码
-                #     try:
-                #         # print("网页编码为{}".format(self.encode))
-                #         self.content = self.res.content.decode(self.encode,'ignore')
-                #     except UnicodeDecodeError:
-                #         # print(self.res.content)
-                #         self.content = self.res.content.decode(self.res.encoding,'ignore')
-                # else:
-                #     self.content = self.res.content
+                if self.encode:   #自解码
+                    try:
+                        # print("网页编码为{}".format(self.encode))
+                        self.content = self.res.content.decode(self.encode,'ignore')
+                    except UnicodeDecodeError:
+                        # print(self.res.content)
+                        self.content = self.res.content.decode(self.res.encoding,'ignore')
+                else:
+                    self.content = self.res.content
                 
                 """ 去除JS和CSS代码 """
                 # print(self.content) 
-                # self.content = filter_tags(self.content)
+                self.content = filter_tags(self.content)
                 # print(self.content)
                       
                 """ 生成第三方库格式化后页面对象,供相关函数使用（减少代码重复，并针对处理三方库接受参数的异常）"""
@@ -157,11 +160,12 @@ class website():
     
     def get_content(self):
         if self.hascontent:
+            return self.content
             # pattern = re.compile('<[^>]*>')
-            pattern = re.compile('</?\w+[^>]*>')
-            content = pattern.sub('',self.content)
-            print(content)
-            return content
+            # pattern = re.compile('</?\w+[^>]*>')
+            # content = pattern.sub('',self.content)
+            # print(content)
+            # return content
     
     def bs_get_text(self):
         if self.hascontent:
